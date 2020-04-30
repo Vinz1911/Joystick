@@ -21,7 +21,7 @@ private:
     const char* device_name;
     int connection;
     struct js_event event;
-    bool read_event_data(int fd);
+    bool read_event_data();
 };
 
 /**
@@ -54,7 +54,7 @@ bool Gamepad_Input::disconnect() {
  * @param callback returns a `vector` [3] of ints containing [0] -> Event Type, [1] -> Event Number, [2] -> Event Value
  */
 std::vector<int> Gamepad_Input::get_input() {
-    if (read_event_data(connection)) {
+    if (read_event_data()) {
         std::vector<int> controller_data[3] = {};
         controller_data->insert(controller_data->begin() + 0, event.type);
         controller_data->insert(controller_data->begin() + 1, event.number);
@@ -66,7 +66,7 @@ std::vector<int> Gamepad_Input::get_input() {
 }
 
 // MARK - Private Functions
-bool Gamepad_Input::read_event_data(int conn) {
-    ssize_t bytes = read(conn, &event, sizeof(event));
+bool Gamepad_Input::read_event_data() {
+    ssize_t bytes = read(connection, &event, sizeof(event));
     return (bytes == sizeof(event));
 }
