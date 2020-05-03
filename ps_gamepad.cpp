@@ -32,9 +32,10 @@ class PSGamepad {
 public:
     bool set_open();
     bool set_close();
+
     void set_led_color(const char* t_led_address, int t_brightness);
-    int get_led_color(const char* t_led_address);
     void get_input(std::function<void(std::vector<int>)> completion);
+    std::string get_led_color(const char* t_led_address);
     std::vector<std::string> get_device_info(const char *t_device_address);
     /**
      * initialize gamepad
@@ -59,7 +60,7 @@ private:
  */
 bool PSGamepad::set_open() {
     m_connection = open(m_device_name, O_RDONLY);
-    return m_connection != 0;
+    return m_connection != -1;
 }
 
 /**
@@ -67,7 +68,7 @@ bool PSGamepad::set_open() {
  */
 bool PSGamepad::set_close() {
     int conn = close(m_connection);
-    return conn != 0;
+    return conn != -1;
 }
 
 /**
@@ -86,10 +87,9 @@ void PSGamepad::set_led_color(const char *t_led_address, int t_brightness) {
  *
  * @param t_led_address -> the devices led address
  */
-int PSGamepad::get_led_color(const char *t_led_address) {
-    std::string value = std::string();
+std::string PSGamepad::get_led_color(const char *t_led_address) {
     std::string path = "/sys/class/leds/" + std::string(t_led_address) + "/brightness";
-    return std::stoi(m_get_fstream_value(path));
+    return m_get_fstream_value(path);
 }
 
 /**

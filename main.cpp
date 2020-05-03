@@ -36,16 +36,16 @@
 int main(int argc, char const *argv[]) {
     PSGamepad gamepad = PSGamepad();
     if(!gamepad.set_open()) {
-        printf("failed to connect to gamepad, get sure gamepad is connected and path is correct!\n");
-        return -1;
+        printf("failed to connect to gamepad, get sure gamepad is connected and path is correct\n");
+        return 1;
     }
 
     printf("Controller Capacity: %s\n", gamepad.get_device_info(GAMEPAD_MAC)[GAMEPAD_CAPACITY].c_str());
     printf("Controller Status: %s\n", gamepad.get_device_info(GAMEPAD_MAC)[GAMEPAD_STATUS].c_str());
 
-    printf("RED LED Brightness: %i\n", gamepad.get_led_color(GAMEPAD_RED_LED));
-    printf("GREEN LED Brightness: %i\n", gamepad.get_led_color(GAMEPAD_GREEN_LED));
-    printf("BLUE LED Brightness: %i\n", gamepad.get_led_color(GAMEPAD_BLUE_LED));
+    printf("RED LED Brightness: %s\n", gamepad.get_led_color(GAMEPAD_RED_LED).c_str());
+    printf("GREEN LED Brightness: %s\n", gamepad.get_led_color(GAMEPAD_GREEN_LED).c_str());
+    printf("BLUE LED Brightness: %s\n", gamepad.get_led_color(GAMEPAD_BLUE_LED).c_str());
 
     gamepad.set_led_color(GAMEPAD_RED_LED, 0);
     gamepad.set_led_color(GAMEPAD_GREEN_LED, 255);
