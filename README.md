@@ -6,8 +6,6 @@
     </h1>
 </div>
 
----
-
 `PSGamepad` is a simple and easy way to deal with the PS4 Controller under Linux. It's fast and based on the `linux/joystick.h`, that means the input trigger is event based. So the `PSGamepad` is made async and non-blocking and runs on his own detached thread. 
 
 ## Features:
@@ -24,7 +22,6 @@
 [![C++17](https://img.shields.io/badge/C++-17-blue.svg?logo=c%2B%2B&style=flat)](https://isocpp.org)
 
 ## Import:
----
 ```cpp
 // include the .cpp files from the project
 #include "ps_gamepad.cpp"
@@ -38,7 +35,6 @@ if(!gamepad.set_open()) {
 ```
 
 ## Usage:
----
 ### Read input data:
 ```cpp
 // read controller input, this is non blocking.
