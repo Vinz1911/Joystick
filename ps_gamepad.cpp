@@ -17,46 +17,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-#include <cstdio>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <thread>
-#include <functional>
-#include <linux/joystick.h>
-
-class PSGamepad {
-public:
-    bool set_open();
-    bool set_close();
-
-    void set_led_color(const char* t_led_address, int t_brightness);
-    void get_input(std::function<void(std::vector<int>)> completion);
-    std::string get_led_color(const char* t_led_address);
-    std::vector<std::string> get_device_info(const char *t_device_address);
-    /**
-     * initialize gamepad
-     *
-     * @param t_device_name -> device name path, default is "/dev/input/js0"
-     */
-    explicit PSGamepad(const char* t_device_name = "/dev/input/js0"):
-        m_device_name(t_device_name) {
-    };
-
-private:
-    const char* m_device_name;
-    int m_connection = {};
-    struct js_event m_event = {};
-
-    std::string m_get_fstream_value(std::string t_path);
-    void m_set_fstream_value(std::string t_path, int t_value);
-};
+#include "ps_gamepad.h"
 
 /**
- * set_open to gamepad input
+ * open the connection to a gamepad path
+ * @return true if success otherwise false
  */
 bool PSGamepad::set_open() {
     m_connection = open(m_device_name, O_RDONLY);
@@ -64,7 +29,8 @@ bool PSGamepad::set_open() {
 }
 
 /**
- * set_close from gamepad input
+ * close the connection to a gamepad path
+ * @return true if success otherwise false
  */
 bool PSGamepad::set_close() {
     int conn = close(m_connection);
@@ -72,31 +38,31 @@ bool PSGamepad::set_close() {
 }
 
 /**
- * set the controller t_led
- *
- * @param t_led
- * @param brightness
+ * set the gamepad's LED's
+ * @param t_led_address the LED address
+ * @param t_brightness the brightness level 0-255
  */
-void PSGamepad::set_led_color(const char *t_led_address, int t_brightness) {
+void PSGamepad::set_led_brightness(const char *t_led_address, int t_brightness) {
     std::string path = "/sys/class/leds/" + std::string(t_led_address) + "/brightness";
     m_set_fstream_value(path, t_brightness);
 }
 
 /**
- * get the led's brightness level
- *
- * @param t_led_address -> the devices led address
+ * set the gamepad's LED's
+ * @param t_led_address the LED address
+ * @param t_brightness the brightness level 0-255
  */
-std::string PSGamepad::get_led_color(const char *t_led_address) {
+std::string PSGamepad::get_led_brightness(const char *t_led_address) {
     std::string path = "/sys/class/leds/" + std::string(t_led_address) + "/brightness";
     return m_get_fstream_value(path);
 }
 
 /**
- * get the devices information's
- *
- * @param t_device_address -> the device's mac address
- * @return a 'vector' containing device information's, [0]: CAPACITY, [1]: STATUS
+ * get the gamepad's infos
+ * @param t_device_address the device's mac address
+ * @return a vector containing device info's
+ * [0]: CAPACITY
+ * [1]: STATUS
  */
 std::vector<std::string> PSGamepad::get_device_info(const char *t_device_address) {
     std::vector<std::string> device_info = std::vector<std::string>();
@@ -107,9 +73,11 @@ std::vector<std::string> PSGamepad::get_device_info(const char *t_device_address
 }
 
 /**
- * read gamepad input
- *
- * @return a 'vector' containing input data -> [0]: EVENT_TYPE, [1]: EVENT_NUMBER, [2]: EVENT_VALUE
+ * read the gamepad input
+ * @param completion lambda a vector containing input data
+ * [0]: EVENT_TYPE
+ * [1]: EVENT_NUMBER
+ * [2]: EVENT_VALUE
  */
 void PSGamepad::get_input(std::function<void(std::vector<int>)> completion) {
     std::thread input_thread([&](){
@@ -133,10 +101,9 @@ void PSGamepad::get_input(std::function<void(std::vector<int>)> completion) {
 // MARK: - Private Functions
 
 /**
- * get a fstream's input
- *
- * @param t_path -> fstream path to read
- * @return -> string of readed value
+ * get data from a fstream
+ * @param t_path the path to read from
+ * @return the readed value
  */
 std::string PSGamepad::m_get_fstream_value(std::string t_path) {
     std::string value = std::string();
@@ -148,9 +115,9 @@ std::string PSGamepad::m_get_fstream_value(std::string t_path) {
 }
 
 /**
- * set a fstream's output
- * @param t_path -> fstream path to write
- * @param t_value -> value to write
+ * set data to a fstream
+ * @param t_path the path to write to
+ * @param t_value the written value
  */
 void PSGamepad::m_set_fstream_value(std::string t_path, int t_value) {
     std::fstream fs = std::fstream();

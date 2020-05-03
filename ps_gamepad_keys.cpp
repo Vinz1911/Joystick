@@ -29,6 +29,10 @@ enum PSGamepadKeys {
     AXIS_D_PAD_UP_DOWN = 6,
     AXIS_D_PAD_LEFT_RIGHT = 7,
 
+    // Axis Minimum and Maximum Value
+    AXIS_MINIMUM_VALUE = -32767,
+    AXIS_MAXIMUM_VALUE = 32767,
+
     /// Buttons
     BUTTON_CROSS = 0,
     BUTTON_CIRCLE = 1,

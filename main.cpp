@@ -18,13 +18,12 @@
  */
 
 
-#include "ps_gamepad.cpp"
-#include "ps_gamepad_keys.cpp"
+#include "ps_gamepad.h"
 
 #define GAMEPAD_MAC "a4:ae:11:c6:13:c2"
-#define GAMEPAD_RED_LED "0005:054C:09CC.0005:red"
-#define GAMEPAD_GREEN_LED "0005:054C:09CC.0005:green"
-#define GAMEPAD_BLUE_LED "0005:054C:09CC.0005:blue"
+#define GAMEPAD_RED_LED "0005:054C:09CC.0008:red"
+#define GAMEPAD_GREEN_LED "0005:054C:09CC.0008:green"
+#define GAMEPAD_BLUE_LED "0005:054C:09CC.0008:blue"
 
 #define GAMEPAD_CAPACITY 0
 #define GAMEPAD_STATUS 1
@@ -43,13 +42,13 @@ int main(int argc, char const *argv[]) {
     printf("Controller Capacity: %s\n", gamepad.get_device_info(GAMEPAD_MAC)[GAMEPAD_CAPACITY].c_str());
     printf("Controller Status: %s\n", gamepad.get_device_info(GAMEPAD_MAC)[GAMEPAD_STATUS].c_str());
 
-    printf("RED LED Brightness: %s\n", gamepad.get_led_color(GAMEPAD_RED_LED).c_str());
-    printf("GREEN LED Brightness: %s\n", gamepad.get_led_color(GAMEPAD_GREEN_LED).c_str());
-    printf("BLUE LED Brightness: %s\n", gamepad.get_led_color(GAMEPAD_BLUE_LED).c_str());
+    printf("RED LED Brightness: %s\n", gamepad.get_led_brightness(GAMEPAD_RED_LED).c_str());
+    printf("GREEN LED Brightness: %s\n", gamepad.get_led_brightness(GAMEPAD_GREEN_LED).c_str());
+    printf("BLUE LED Brightness: %s\n", gamepad.get_led_brightness(GAMEPAD_BLUE_LED).c_str());
 
-    gamepad.set_led_color(GAMEPAD_RED_LED, 0);
-    gamepad.set_led_color(GAMEPAD_GREEN_LED, 255);
-    gamepad.set_led_color(GAMEPAD_BLUE_LED, 255);
+    gamepad.set_led_brightness(GAMEPAD_RED_LED, 0);
+    gamepad.set_led_brightness(GAMEPAD_GREEN_LED, 255);
+    gamepad.set_led_brightness(GAMEPAD_BLUE_LED, 255);
 
     gamepad.get_input([&](std::vector<int> input){
         if (input.empty()) {
