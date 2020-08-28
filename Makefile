@@ -17,7 +17,7 @@ keymap/mappings_%: | keymap/mappings_%.def
 
 # Original example
 
-GamepadDemo: $(OBJECTS)
+GamepadDemo: example/main.o $(OBJECTS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 # General stuff

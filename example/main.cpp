@@ -18,7 +18,7 @@
  */
 
 
-#include "../src/ps_gamepad.cpp"
+#include <ps_gamepad.h>
 
 #define GAMEPAD_MAC "a4:ae:11:c6:13:c2"
 #define GAMEPAD_RED_LED "0005:054C:09CC.0008:red"
