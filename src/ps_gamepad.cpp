@@ -80,7 +80,7 @@ std::vector<std::string> PSGamepad::get_device_info(const char *t_device_address
  * [2]: EVENT_VALUE
  */
 void PSGamepad::get_input(std::function<void(std::vector<int>)> completion) {
-    std::thread input_thread([&](){
+    std::thread input_thread([=](){
         while (true) {
             ssize_t bytes = read(m_connection, &m_event, sizeof(m_event));
             if (bytes == sizeof(m_event)) {

@@ -23,9 +23,8 @@
 
 ## Import:
 ```cpp
-// include the .cpp files from the project
-#include "ps_gamepad.cpp"
-#include "ps_gamepad_keys.cpp"
+// include the header file from the project
+#include <ps_gamepad.h>
 
 // create instance of the gamepad 
 PSGamepad gamepad = PSGamepad();
@@ -33,6 +32,14 @@ if(!gamepad.set_open()) {
     // handle error
 }
 ```
+
+## Building:
+Compile the projects using `make`.
+- GamepadDemo: `make GamepadDemo`
+- KeyMap: `make KeyMap`
+
+This places an executable in the working directory.
+Installation targets are currently not available, just copy the executable to `/usr/local/bin`.
 
 ## Usage:
 ### Read input data:

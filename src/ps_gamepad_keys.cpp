@@ -26,8 +26,8 @@ enum PSGamepadKeys {
     AXIS_RIGHT_THUMB_X = 3,
     AXIS_RIGHT_THUMB_Y = 4,
     AXIS_RIGHT_TRIGGER = 5,
-    AXIS_D_PAD_UP_DOWN = 6,
-    AXIS_D_PAD_LEFT_RIGHT = 7,
+    AXIS_D_PAD_LEFT_RIGHT = 6,
+    AXIS_D_PAD_UP_DOWN = 7,
 
     // Axis Minimum and Maximum Value
     AXIS_MINIMUM_VALUE = -32767,
